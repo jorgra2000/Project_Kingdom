@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.AI;
 using System;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private const string IDLE = "Idle";
     private const string RUN = "Run";
@@ -16,10 +16,11 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     [Header("Movement")]
-    [SerializeField] private ParticleSystem clickEffect;
+    [SerializeField] private ParticleSystem clickEffectPrefab;
     [SerializeField] private LayerMask clickableLayers;
 
     private float lookRotationSpeed = 8f;
+    private ParticleSystem clickEffectInstance;
 
     private void Awake()
     {
@@ -31,6 +32,12 @@ public class Player : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        if (clickEffectPrefab != null)
+        {
+            clickEffectInstance = Instantiate(clickEffectPrefab);
+            clickEffectInstance.Stop();
+        }
     }
 
     private void Update()
@@ -50,8 +57,13 @@ public class Player : MonoBehaviour
         {
             agent.destination = hit.point;
 
-            if(clickEffect != null) 
-                Instantiate(clickEffect, hit.point += new Vector3(0, 0.1f, 0), clickEffect.transform.rotation);
+            if(clickEffectInstance != null) 
+            {
+                clickEffectInstance.transform.position = hit.point + new Vector3(0, 0.1f, 0);
+                clickEffectInstance.transform.rotation = Quaternion.identity;
+                clickEffectInstance.Stop();
+                clickEffectInstance.Play();
+            }
         }
     }
 
