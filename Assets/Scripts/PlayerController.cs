@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
+    private GameObject buildingToInteract;
+
     [Header("Movement")]
     [SerializeField] private ParticleSystem clickEffectPrefab;
     [SerializeField] private LayerMask clickableLayers;
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
     private void AssignInputs()
     {
         playerControls.Main.Move.performed += ctx => ClickToMove();
+        playerControls.Main.Interact.performed += ctx => Interact();
     }
 
     private void ClickToMove() 
@@ -79,7 +82,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void Interact() 
+    {
+        if(buildingToInteract != null) 
+        {
+            buildingToInteract.GetComponent<LightGenerator>().Interact();
+        }
+    }
+
     private void OnEnable(){ playerControls.Enable(); }
 
     private void OnDisable(){ playerControls.Disable(); }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Building")) 
+        {
+            buildingToInteract = other.gameObject;
+            Debug.Log("In");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Building"))
+        {
+            buildingToInteract = null;
+            Debug.Log("Out");
+        }
+    }
+
+
 }

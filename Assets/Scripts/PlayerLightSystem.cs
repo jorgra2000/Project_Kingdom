@@ -9,12 +9,13 @@ public class PlayerLightSystem : MonoBehaviour
     [SerializeField] private int maxLight;
     [SerializeField] private float attractionRadius;
     [SerializeField] private TextMeshProUGUI lightText;
+    [SerializeField] private Light staffLight;
     private int currentLight = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        UpdateUI();
+        UpdateLight();
     }
 
     // Update is called once per frame
@@ -34,18 +35,19 @@ public class PlayerLightSystem : MonoBehaviour
     public void AddLight() 
     {
         currentLight++;
-        UpdateUI();
+        UpdateLight();
     }
 
     public void LoseLight(int light) 
     {
         currentLight -= light;
-        UpdateUI();
+        UpdateLight();
     }
 
-    private void UpdateUI() 
+    private void UpdateLight() 
     {
         lightText.text = currentLight + " / " + maxLight;
+        staffLight.intensity = currentLight;
     }
 
     private void OnDrawGizmosSelected()
