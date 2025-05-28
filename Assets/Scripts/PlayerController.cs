@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem clickEffectPrefab;
     [SerializeField] private LayerMask clickableLayers;
 
-    private float lookRotationSpeed = 8f;
     private ParticleSystem clickEffectInstance;
 
     private void Awake()

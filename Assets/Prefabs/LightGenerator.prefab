@@ -127,7 +127,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0.000000029802322, z: -0.000000014901161}
 --- !u!114 &7150460897524841028
 MonoBehaviour:
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d74e85aebe3c4498ce833c29da99d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToReload: 0
+  timeToReload: 5
   lightAmount: 20
   resourcePrefab: {fileID: 2851590608283929787, guid: 2fcfe153cef9cb747a2f7e34a5a6ed6e,
     type: 3}
