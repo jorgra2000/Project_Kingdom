@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         if(buildingToInteract != null) 
         {
-            buildingToInteract.GetComponent<LightGenerator>().Interact();
+            buildingToInteract.GetComponent<IInteractable>().Interact();
         }
     }
 
@@ -98,7 +98,6 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Building")) 
         {
             buildingToInteract = other.gameObject;
-            Debug.Log("In");
         }
     }
 
@@ -107,7 +106,6 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Building"))
         {
             buildingToInteract = null;
-            Debug.Log("Out");
         }
     }
 

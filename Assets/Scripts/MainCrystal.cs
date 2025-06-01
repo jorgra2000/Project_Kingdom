@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MainCrystal : MonoBehaviour, IInteractable
 {
-
     [SerializeField] private float maxLightLevel;
     [SerializeField] private float maxSafeZoneRadius;
     [SerializeField] private LayerMask affectLightLayer;
@@ -22,13 +21,7 @@ public class MainCrystal : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
-        UpdateSafeZone();
-
-        if (Input.GetKeyDown(KeyCode.I)) 
-        {
-            currentLightLevel+= 5;
-            currentSafeZoneRadius+= 5;
-        }
+        
     }
 
     void UpdateSafeZone()
@@ -58,7 +51,9 @@ public class MainCrystal : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("I");
+        currentLightLevel += 5;
+        currentSafeZoneRadius += 5;
+        UpdateSafeZone();
     }
 
     void OnDrawGizmosSelected()
@@ -66,6 +61,5 @@ public class MainCrystal : MonoBehaviour, IInteractable
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, currentSafeZoneRadius);
     }
-
 
 }

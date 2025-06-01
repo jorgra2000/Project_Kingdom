@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LightGenerator : MonoBehaviour, IInteractable
@@ -9,17 +8,14 @@ public class LightGenerator : MonoBehaviour, IInteractable
     [SerializeField] private int lightAmount;
     [SerializeField] private Resource resourcePrefab;
 
+    
+
     private bool readyToLight = true;
 
     void Start()
     {
         StartCoroutine(RecoverLight());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var renderer = GetComponent<Renderer>();
     }
 
     public void Interact()
@@ -27,6 +23,7 @@ public class LightGenerator : MonoBehaviour, IInteractable
         if (readyToLight) 
         {
             readyToLight = false;
+            GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
             StartCoroutine(SpawnWithDelay());
         }
     }
@@ -47,6 +44,7 @@ public class LightGenerator : MonoBehaviour, IInteractable
             if (!readyToLight) 
             {
                 yield return new WaitForSeconds(timeToReload);
+                GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.white);
                 readyToLight = true;
             }
             yield return null;
