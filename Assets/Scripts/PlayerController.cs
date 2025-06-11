@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
@@ -7,21 +5,22 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
-    private const string IDLE = "Idle";
-    private const string RUN = "Run";
-
     private PlayerControls playerControls;
-
     private NavMeshAgent agent;
     private Animator animator;
-
     private GameObject buildingToInteract;
+
+    private float currentHealth;
 
     [Header("Movement")]
     [SerializeField] private ParticleSystem clickEffectPrefab;
     [SerializeField] private LayerMask clickableLayers;
 
+    [Header("Movement")]
+    [SerializeField] private float maxHealth;
+
     private ParticleSystem clickEffectInstance;
+    private float holdTimer = 0f;
 
     private void Awake()
     {
@@ -33,6 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        currentHealth = maxHealth;
 
         if (clickEffectPrefab != null)
         {
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         playerControls.Main.Move.performed += ctx => ClickToMove();
         playerControls.Main.Interact.performed += ctx => Interact();
+        playerControls.Main.Interact.canceled += ctx => holdTimer = 0;
     }
 
     private void ClickToMove() 
@@ -73,11 +74,11 @@ public class PlayerController : MonoBehaviour
     {
         if(agent.velocity == Vector3.zero) 
         {
-            animator.Play(IDLE);
+            animator.SetBool("moving", false);
         }
         else 
         {
-            animator.Play(RUN);
+            animator.SetBool("moving", true);
         }
     }
 
@@ -85,7 +86,16 @@ public class PlayerController : MonoBehaviour
     {
         if(buildingToInteract != null) 
         {
-            buildingToInteract.GetComponent<IInteractable>().Interact();
+           buildingToInteract.GetComponent<Interactable>().Interact();
+        }
+    }
+
+    void ChangeHealth(float lifePoints) 
+    {
+        currentHealth += lifePoints;
+        if(currentHealth > maxHealth) 
+        {
+            currentHealth = maxHealth;
         }
     }
 
@@ -95,17 +105,24 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Building")) 
+        if (other.gameObject.TryGetComponent<Interactable>(out Interactable triggerObject)) 
         {
-            buildingToInteract = other.gameObject;
+
+            if (triggerObject.GetCanInteract()) 
+            {
+                buildingToInteract = other.gameObject;
+                triggerObject.ShowText();
+            }
+
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Building"))
+        if (other.gameObject.TryGetComponent<Interactable>(out Interactable triggerObject))
         {
             buildingToInteract = null;
+            triggerObject.HideText();
         }
     }
 

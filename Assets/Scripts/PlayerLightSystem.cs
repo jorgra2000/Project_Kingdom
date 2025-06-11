@@ -8,7 +8,9 @@ public class PlayerLightSystem : MonoBehaviour
     [SerializeField] private float attractionRadius;
     [SerializeField] private TextMeshProUGUI lightText;
     [SerializeField] private Light staffLight;
+
     private int currentLight = 0;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +50,7 @@ public class PlayerLightSystem : MonoBehaviour
         staffLight.intensity = currentLight;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attractionRadius);

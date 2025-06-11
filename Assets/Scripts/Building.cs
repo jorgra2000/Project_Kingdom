@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : MonoBehaviour, IInteractable
+public class Building : Interactable
 {
     [SerializeField] private int lightCost;
     [SerializeField] private Mesh builtMesh;
 
     private bool isBuilt = false;
-    private bool isActive = false;
 
 
     // Start is called before the first frame update
@@ -17,9 +16,16 @@ public class Building : MonoBehaviour, IInteractable
         
     }
 
-    public void Interact()
+    public override void Interact()
     {
-        BuildStructure();
+        if (!isBuilt)
+        {
+            BuildStructure();
+        }
+        else 
+        {
+            Debug.Log("Construido");
+        }
     }
 
     private void BuildStructure() 
