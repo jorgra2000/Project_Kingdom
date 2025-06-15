@@ -41,6 +41,13 @@ public class MainCrystal : MonoBehaviour, IInteractable
             float dist = Vector3.Distance(transform.position, col.transform.position);
             bool inside = dist <= currentSafeZoneRadius;
 
+            Building colBuilding = col.GetComponent<Building>();
+
+            if (!colBuilding.GetCanInteract()) 
+            {
+                colBuilding.SetCanInteract(true);
+            }
+
             /*var zoneAffectable = col.GetComponent<IZoneAffectable>();
             if (zoneAffectable != null)
             {

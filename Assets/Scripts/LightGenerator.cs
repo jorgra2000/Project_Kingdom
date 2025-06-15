@@ -29,8 +29,9 @@ public class LightGenerator : Interactable
         SetCanInteract(true);
     }
 
-    void Update() 
+    public override void Update() 
     {
+        base.Update();
         if (readyToLight)
         {
             float emission = Mathf.PingPong(Time.time * pulseSpeed, 1f);

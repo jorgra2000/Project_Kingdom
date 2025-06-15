@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Building : Interactable
 {
-    [SerializeField] private int lightCost;
     [SerializeField] private Mesh builtMesh;
 
     private bool isBuilt = false;
@@ -13,7 +12,7 @@ public class Building : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetCanInteract(false);
     }
 
     public override void Interact()
@@ -21,11 +20,13 @@ public class Building : Interactable
         if (!isBuilt)
         {
             BuildStructure();
+            LightCost = 0;
         }
         else 
         {
             Debug.Log("Construido");
         }
+        StopInteract();
     }
 
     private void BuildStructure() 

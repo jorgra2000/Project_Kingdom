@@ -10,9 +10,4 @@ public class Tower : Building
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

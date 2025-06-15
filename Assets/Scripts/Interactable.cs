@@ -1,16 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Interactable : MonoBehaviour, IInteractable
 {
     [Header ("Interaction")]
-    [SerializeField] private TextMeshPro interactText;
+    [SerializeField] private Image interactImage;
+    [SerializeField] private Image filledInteract;
     [SerializeField] private float timeToInteract;
     [SerializeField] private SphereCollider interactionTrigger;
-    private bool canBeInteracted;
-    
+    [SerializeField] private int lightCost;
+    private bool canBeInteracted = true;
+    private bool isInteracting = false;
+
+    public int LightCost { get => lightCost; set => lightCost = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -18,23 +20,37 @@ public class Interactable : MonoBehaviour, IInteractable
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
-        
+        if (isInteracting) 
+        {
+           filledInteract.fillAmount += Time.deltaTime / timeToInteract;
+        }
     }
 
     public virtual void Interact()
     {
     }
 
+    public void StartInteraction() 
+    {
+        isInteracting = true;
+    }
+
+    public void StopInteract() 
+    {
+        isInteracting = false;
+        filledInteract.fillAmount = 0;
+    }
+
     public void HideText() 
     {
-        interactText.gameObject.SetActive(false);
+        interactImage.gameObject.SetActive(false);
     }
 
     public void ShowText()
     {
-        interactText.gameObject.SetActive(true);
+        interactImage.gameObject.SetActive(true);
     }
 
     public bool GetCanInteract() 

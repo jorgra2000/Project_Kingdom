@@ -10,7 +10,9 @@ public class PlayerLightSystem : MonoBehaviour
     [SerializeField] private Light staffLight;
 
     private int currentLight = 0;
-    
+
+    public int CurrentLight { get => currentLight; set => currentLight = value; }
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +20,6 @@ public class PlayerLightSystem : MonoBehaviour
         UpdateLight();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Collider[] coins = Physics.OverlapSphere(transform.position, attractionRadius, lightMask);

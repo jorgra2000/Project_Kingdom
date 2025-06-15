@@ -8,9 +8,11 @@ public class PlayerController : MonoBehaviour
     private PlayerControls playerControls;
     private NavMeshAgent agent;
     private Animator animator;
-    private GameObject buildingToInteract;
+    private Interactable buildingToInteract;
 
     private float currentHealth;
+
+    [SerializeField] private PlayerLightSystem lightSystem;
 
     [Header("Movement")]
     [SerializeField] private ParticleSystem clickEffectPrefab;
@@ -20,7 +22,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxHealth;
 
     private ParticleSystem clickEffectInstance;
-    private float holdTimer = 0f;
 
     private void Awake()
     {
@@ -49,8 +50,9 @@ public class PlayerController : MonoBehaviour
     private void AssignInputs()
     {
         playerControls.Main.Move.performed += ctx => ClickToMove();
+        playerControls.Main.Interact.started += ctx => StartInteraction();
         playerControls.Main.Interact.performed += ctx => Interact();
-        playerControls.Main.Interact.canceled += ctx => holdTimer = 0;
+        playerControls.Main.Interact.canceled += ctx => StopInteract();
     }
 
     private void ClickToMove() 
@@ -86,8 +88,29 @@ public class PlayerController : MonoBehaviour
     {
         if(buildingToInteract != null) 
         {
-           buildingToInteract.GetComponent<Interactable>().Interact();
+            if (lightSystem.CurrentLight >= buildingToInteract.LightCost)
+            {
+                buildingToInteract.Interact();
+                lightSystem.CurrentLight -= buildingToInteract.LightCost;
+
+            }
         }
+    }
+
+    void StartInteraction() 
+    {
+        if (buildingToInteract != null)
+        {
+            if (lightSystem.CurrentLight >= buildingToInteract.LightCost) 
+            {
+                buildingToInteract.StartInteraction();
+            }
+        }
+    }
+
+    void StopInteract() 
+    {
+        buildingToInteract.StopInteract();
     }
 
     void ChangeHealth(float lifePoints) 
@@ -110,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
             if (triggerObject.GetCanInteract()) 
             {
-                buildingToInteract = other.gameObject;
+                buildingToInteract = other.gameObject.GetComponent<Interactable>();
                 triggerObject.ShowText();
             }
 
@@ -121,6 +144,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<Interactable>(out Interactable triggerObject))
         {
+            StopInteract();
             buildingToInteract = null;
             triggerObject.HideText();
         }
