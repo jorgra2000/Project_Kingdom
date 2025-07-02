@@ -4,10 +4,5 @@ using UnityEngine;
 
 public class Tower : Building
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
 }

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Terrain
   - Structure
+  - Building
+  - Crystal
   layers:
   - Default
   - TransparentFX

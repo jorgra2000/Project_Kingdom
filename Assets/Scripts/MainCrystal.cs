@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainCrystal : MonoBehaviour, IInteractable
+public class MainCrystal : Interactable
 {
     [SerializeField] private float maxLightLevel;
     [SerializeField] private float maxSafeZoneRadius;
@@ -11,41 +11,62 @@ public class MainCrystal : MonoBehaviour, IInteractable
     private float currentLightLevel;
     private float currentSafeZoneRadius;
 
+    private List<Building> allBuildings = new List<Building>();
+
+    public float CurrentSafeZoneRadius { get => currentSafeZoneRadius; set => currentSafeZoneRadius = value; }
+
     private void Start()
     {
         currentLightLevel = 10;
-        currentSafeZoneRadius = 5;
+        currentSafeZoneRadius = (currentLightLevel / maxLightLevel) * maxSafeZoneRadius;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, maxSafeZoneRadius, affectLightLayer);
+        foreach (Collider col in colliders)
+        {
+            Building building = col.GetComponent<Building>();
+            if (building != null && !allBuildings.Contains(building))
+            {
+                allBuildings.Add(building);
+            }
+        }
+
+        UpdateSafeZone();
     }
 
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        
+        base.Update();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentLightLevel = 2;
+            currentSafeZoneRadius = 2;
+            UpdateSafeZone();
+        }
     }
 
-    void UpdateSafeZone()
+    public void UpdateSafeZone()
     {
         currentSafeZoneRadius = (currentLightLevel / maxLightLevel) * maxSafeZoneRadius;
+        
 
-        //SHADERS
-        // Actualizar efectos visuales como un shader de zona segura
-        //Shader.SetGlobalFloat("_SafeZoneRadius", currentSafeZoneRadius);
-        //Shader.SetGlobalVector("_SafeZoneCenter", transform.position);
 
-        // Ejemplo de activación/desactivación de edificios
-        Collider[] objects = Physics.OverlapSphere(transform.position, maxSafeZoneRadius, affectLightLayer);
-
-        foreach (Collider col in objects)
+        foreach (Building building in allBuildings)
         {
-            float dist = Vector3.Distance(transform.position, col.transform.position);
+            float dist = Vector3.Distance(transform.position, building.transform.position);
             bool inside = dist <= currentSafeZoneRadius;
 
-            Building colBuilding = col.GetComponent<Building>();
+            Building colBuilding = building.GetComponent<Building>();
 
-            if (!colBuilding.GetCanInteract()) 
+            if (inside)
             {
                 colBuilding.SetCanInteract(true);
+            }
+            else
+            {
+                colBuilding.SetCanInteract(false);
             }
 
             /*var zoneAffectable = col.GetComponent<IZoneAffectable>();
@@ -54,19 +75,38 @@ public class MainCrystal : MonoBehaviour, IInteractable
                 zoneAffectable.OnZoneUpdate(inside);
             }*/
         }
+        CheckVictory();
     }
 
-    public void Interact()
+    public void ChangeLight(float light) 
     {
-        currentLightLevel += 5;
-        currentSafeZoneRadius += 5;
+        currentLightLevel += light;
         UpdateSafeZone();
     }
 
-    void OnDrawGizmosSelected()
+    public override void Interact()
+    {
+        currentLightLevel += 40;
+        currentSafeZoneRadius += 40;
+        UpdateSafeZone();
+    }
+
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, currentSafeZoneRadius);
+    }
+
+    void CheckVictory() 
+    {
+        if(currentLightLevel >= maxLightLevel) 
+        {
+            Debug.Log("Victory");
+        }
+        else if(currentLightLevel <= 0) 
+        {
+            Debug.Log("Defeat");
+        }
     }
 
 }
