@@ -7,6 +7,7 @@ public class MainCrystal : Interactable
     [SerializeField] private float maxLightLevel;
     [SerializeField] private float maxSafeZoneRadius;
     [SerializeField] private LayerMask affectLightLayer;
+    [SerializeField] private GameManager gameManager;
 
     private float currentLightLevel;
     private float currentSafeZoneRadius;
@@ -101,11 +102,11 @@ public class MainCrystal : Interactable
     {
         if(currentLightLevel >= maxLightLevel) 
         {
-            Debug.Log("Victory");
+            gameManager.Victory();
         }
         else if(currentLightLevel <= 0) 
         {
-            Debug.Log("Defeat");
+            gameManager.Defeat();
         }
     }
 

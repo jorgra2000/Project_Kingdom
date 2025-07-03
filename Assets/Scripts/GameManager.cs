@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,13 +14,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LightingPreset preset;
     [SerializeField, Range(0, 24)] private float timeDay;
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Application.isPlaying)
@@ -83,5 +82,25 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         uISystem.QuitPauseMenu();
         playerInput.SwitchCurrentActionMap("Main");
+    }
+
+    public void Victory() 
+    {
+        uISystem.ShowVictoryMenu();
+        //Time.timeScale = 0f;
+        StartCoroutine(GoBackToSelectLevel());
+    }
+
+    public void Defeat() 
+    {
+        uISystem.ShowDefeatMenu();
+        //Time.timeScale = 0f;
+        StartCoroutine(GoBackToSelectLevel());
+    }
+
+    IEnumerator GoBackToSelectLevel() 
+    {
+        yield return new WaitForSeconds(8f);
+        SceneManager.LoadScene(1);
     }
 }

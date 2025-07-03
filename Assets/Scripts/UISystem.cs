@@ -5,18 +5,8 @@ using UnityEngine;
 public class UISystem : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private GameObject defeatMenu;
+    [SerializeField] private GameObject victoryMenu;
 
     public void ShowPauseMenu() 
     {
@@ -26,5 +16,15 @@ public class UISystem : MonoBehaviour
     public void QuitPauseMenu()
     {
         pauseMenu.SetActive(false);
+    }
+
+    public void ShowDefeatMenu() 
+    {
+        defeatMenu.SetActive(true);
+    }
+
+    public void ShowVictoryMenu()
+    {
+        victoryMenu.SetActive(true);
     }
 }
