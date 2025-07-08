@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
 {
 
     [SerializeField] private float maxHealth;
+    [SerializeField] private float attack;
+    [SerializeField] private GameObject deathParticles;
+    [SerializeField] private Vector3 attackRangeDimensions;
 
     private float currentHealth;
     private NavMeshAgent agent;
@@ -33,6 +36,35 @@ public class Enemy : MonoBehaviour
         {
             currentObjective = crystalPosition;
         }
+
+        SetAnimation();
+    }
+
+    void SetAnimation()
+    {
+        if (agent.velocity == Vector3.zero)
+        {
+            animator.SetBool("moving", false);
+        }
+        else
+        {
+            animator.SetBool("moving", true);
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Death();
+        }
+    }
+
+    private void Death() 
+    {
+        Instantiate(deathParticles,transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,7 +72,13 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Crystal")) 
         {
             crystalScript.ChangeLight(-5f);
-            Destroy(this.gameObject);
+            Death();
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, attackRangeDimensions * 2);
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Structure
   - Building
   - Crystal
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Terrain
   - Resources
   - Buildings
-  - 
+  - Enemies
   - 
   - 
   - 

@@ -8,6 +8,7 @@ public class FogController : MonoBehaviour
     private VisualEffect fogEffect;
 
     [SerializeField] private MainCrystal mainCrystal;
+    [SerializeField] private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,15 @@ public class FogController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        fogEffect.SetFloat("ColliderRadius", mainCrystal.CurrentSafeZoneRadius);
+        float t = DaylightFactor(gameManager.TimePercent); // entre 0 (noche) y 1 (día)
+
+        float radius = Mathf.Lerp(mainCrystal.CurrentSafeZoneRadius, mainCrystal.MaxSafeZoneRadius, t);
+        fogEffect.SetFloat("ColliderRadius", radius);
+    }
+
+    // Calcula qué tan "de día" es: 0 = noche, 1 = mediodía
+    private float DaylightFactor(float timePercent)
+    {
+        return Mathf.Sin(timePercent * Mathf.PI);
     }
 }

@@ -13,23 +13,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Light directionalLight;
     [SerializeField] private LightingPreset preset;
     [SerializeField, Range(0, 24)] private float timeDay;
+    [SerializeField] private float dayDurationInSeconds = 420f;
+
+    private float timeScale;
+
+    public float TimeDay { get => timeDay; set => timeDay = value; }
+    public float TimePercent => timeDay / 24f;
 
     void Start()
     {
-        
+        timeScale = 24f / dayDurationInSeconds;
     }
 
     void Update()
     {
         if (Application.isPlaying)
         {
-            timeDay += Time.deltaTime;
+            timeDay += Time.deltaTime * timeScale;
             if (timeDay >= 24f)
             {
                 timeDay %= 24f;
             }
             UpdateLighting(timeDay / 24f);
-
         }
     }
 

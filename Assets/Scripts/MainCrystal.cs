@@ -5,9 +5,13 @@ using UnityEngine;
 public class MainCrystal : Interactable
 {
     [SerializeField] private float maxLightLevel;
+    [SerializeField] private float startLightLevel;
     [SerializeField] private float maxSafeZoneRadius;
     [SerializeField] private LayerMask affectLightLayer;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private UISystem uISystem;
+    [SerializeField] private Transform meshCrystal;
+    [SerializeField] private float rotationSpeed;
 
     private float currentLightLevel;
     private float currentSafeZoneRadius;
@@ -15,10 +19,12 @@ public class MainCrystal : Interactable
     private List<Building> allBuildings = new List<Building>();
 
     public float CurrentSafeZoneRadius { get => currentSafeZoneRadius; set => currentSafeZoneRadius = value; }
+    public float MaxLightLevel { get => maxLightLevel; set => maxLightLevel = value; }
+    public float MaxSafeZoneRadius { get => maxSafeZoneRadius; set => maxSafeZoneRadius = value; }
 
     private void Start()
     {
-        currentLightLevel = 10;
+        currentLightLevel = startLightLevel;
         currentSafeZoneRadius = (currentLightLevel / maxLightLevel) * maxSafeZoneRadius;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, maxSafeZoneRadius, affectLightLayer);
@@ -32,27 +38,19 @@ public class MainCrystal : Interactable
         }
 
         UpdateSafeZone();
+        uISystem.UpdateSlider(currentLightLevel, maxLightLevel);
     }
 
 
-    // Update is called once per frame
     public override void Update()
     {
         base.Update();
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            currentLightLevel = 2;
-            currentSafeZoneRadius = 2;
-            UpdateSafeZone();
-        }
+        meshCrystal.Rotate(new Vector3(0,0,rotationSpeed) * Time.deltaTime);
     }
 
     public void UpdateSafeZone()
     {
         currentSafeZoneRadius = (currentLightLevel / maxLightLevel) * maxSafeZoneRadius;
-        
-
 
         foreach (Building building in allBuildings)
         {
@@ -69,12 +67,6 @@ public class MainCrystal : Interactable
             {
                 colBuilding.SetCanInteract(false);
             }
-
-            /*var zoneAffectable = col.GetComponent<IZoneAffectable>();
-            if (zoneAffectable != null)
-            {
-                zoneAffectable.OnZoneUpdate(inside);
-            }*/
         }
         CheckVictory();
     }
@@ -82,13 +74,13 @@ public class MainCrystal : Interactable
     public void ChangeLight(float light) 
     {
         currentLightLevel += light;
+        uISystem.UpdateSlider(currentLightLevel, maxLightLevel);
         UpdateSafeZone();
     }
 
     public override void Interact()
     {
-        currentLightLevel += 40;
-        currentSafeZoneRadius += 40;
+        ChangeLight(40);
         UpdateSafeZone();
     }
 

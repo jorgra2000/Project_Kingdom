@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1006019708090350964
 RectTransform:
   m_ObjectHideFlags: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d74e85aebe3c4498ce833c29da99d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactImage: {fileID: 2630901375649132773}
+  interactPanel: {fileID: 8173517182342552646}
   filledInteract: {fileID: 2145904867299599018}
   timeToInteract: 2
   interactionTrigger: {fileID: 3792952264796296446}
@@ -282,7 +282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8786046988067082788
 RectTransform:
   m_ObjectHideFlags: 0

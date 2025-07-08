@@ -113,7 +113,8 @@ public class PlayerController : MonoBehaviour
 
     void StopInteract() 
     {
-        buildingToInteract.StopInteract();
+        if(buildingToInteract != null)
+            buildingToInteract.StopInteract();
     }
 
     void ChangeHealth(float lifePoints) 
@@ -150,6 +151,4 @@ public class PlayerController : MonoBehaviour
             triggerObject.HideText();
         }
     }
-
-
 }
