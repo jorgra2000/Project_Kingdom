@@ -30,6 +30,7 @@ public class Tower : Building
 
     private Transform DetectNearTarget()
     {
+        detectedObjects.Clear();
         Collider[] colliders = Physics.OverlapBox(transform.position, attackRangeDimensions, Quaternion.identity, layerMaskAttack);
 
         foreach (Collider col in colliders)

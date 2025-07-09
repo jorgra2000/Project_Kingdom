@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
         crystalPosition = FindAnyObjectByType<MainCrystal>().gameObject.transform;
         currentObjective = crystalPosition;
         agent.destination = currentObjective.position;
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame

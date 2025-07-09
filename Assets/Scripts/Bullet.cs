@@ -18,8 +18,9 @@ public class Bullet : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 direction = target.position - transform.position;
+            Vector3 direction = (target.position - transform.position).normalized;
             transform.Translate(direction * speed * Time.deltaTime, Space.World);
+            transform.forward = direction;
         }
         else
         {
