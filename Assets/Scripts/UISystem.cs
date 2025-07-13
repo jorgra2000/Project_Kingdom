@@ -10,6 +10,7 @@ public class UISystem : MonoBehaviour
     [SerializeField] private GameObject defeatMenu;
     [SerializeField] private GameObject victoryMenu;
     [SerializeField] private Slider crystalSlider;
+    [SerializeField] private Image healthbar;
 
     public void ShowPauseMenu() 
     {
@@ -35,5 +36,10 @@ public class UISystem : MonoBehaviour
     {
         float normalized = crystalSlider.value = light/maxLight;
         crystalSlider.value = Mathf.Lerp(0.1f, 0.9f, normalized);
+    }
+
+    public void UpdateHealthBar(float health, float maxHealth)
+    {
+        healthbar.fillAmount = health/maxHealth;
     }
 }

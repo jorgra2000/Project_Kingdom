@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameManager gameManager;
     [SerializeField] private PlayerLightSystem lightSystem;
+    [SerializeField] private UISystem uISystem;
 
     [Header("Movement")]
     [SerializeField] private ParticleSystem clickEffectPrefab;
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Health")]
     [SerializeField] private float maxHealth;
+
+    private bool isBeingDamaged = false;
 
     private ParticleSystem clickEffectInstance;
 
@@ -46,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         SetAnimation();
+        Debug.Log(currentHealth);
     }
 
     private void AssignInputs()
@@ -117,13 +121,23 @@ public class PlayerController : MonoBehaviour
             buildingToInteract.StopInteract();
     }
 
-    void ChangeHealth(float lifePoints) 
+    public void TakeDamageOverTime(float damage) 
     {
-        currentHealth += lifePoints;
-        if(currentHealth > maxHealth) 
+        currentHealth -= damage;
+        if (currentHealth <= 0) 
         {
-            currentHealth = maxHealth;
+            Debug.Log("Muerto");
         }
+        uISystem.UpdateHealthBar(currentHealth, maxHealth);
+    }
+
+    public void Health() 
+    {
+        if(currentHealth < maxHealth) 
+        {
+            currentHealth += 5 * Time.deltaTime;
+        }
+        uISystem.UpdateHealthBar(currentHealth, maxHealth);
     }
 
     private void OnEnable(){ playerControls.Enable(); }

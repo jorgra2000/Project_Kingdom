@@ -9,10 +9,13 @@ public class FogController : MonoBehaviour
 
     [SerializeField] private MainCrystal mainCrystal;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerController player;
+    [SerializeField] private float damagePerSecond;
 
     private float timePercent;
     private float radius;
     private float alpha;
+    private float distanceToPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -26,43 +29,55 @@ public class FogController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        distanceToPlayer = Vector3.Distance(player.transform.position, mainCrystal.transform.position);
         timePercent = gameManager.TimePercent;
 
-        // 5:00 a 6:00 → transición de mínimo a máximo
+        // 5:00 a 6:00 → Terminan las oleadas
         if (timePercent >= 0.208f && timePercent < 0.25f)
         {
             float t = Mathf.InverseLerp(0.208f, 0.25f, timePercent);
             radius = Mathf.Lerp(mainCrystal.CurrentSafeZoneRadius, mainCrystal.MaxSafeZoneRadius, t);
-            alpha = Mathf.Lerp(1f, 0f, t);
+            gameManager.IsNight = false;
         }
         // 22:00 a 23:00 → transición de máximo a mínimo
         else if (timePercent >= 0.916f && timePercent < 0.958f)
         {
             float t = Mathf.InverseLerp(0.916f, 0.958f, timePercent);
             radius = Mathf.Lerp(mainCrystal.MaxSafeZoneRadius, mainCrystal.CurrentSafeZoneRadius, t);
-            alpha = Mathf.Lerp(0f, 1f, t);
         }
-        // 23:00 a 5:00 → niebla cerca y opaca
+        // 23:00 a 5:00 → Empiezan las oleadas
         else if (timePercent >= 0.958f || timePercent < 0.208f)
         {
             radius = mainCrystal.CurrentSafeZoneRadius;
-            alpha = 1f;
+            gameManager.IsNight = true;
+            CheckDamagePlayer();
         }
         // 6:00 a 22:00 → niebla lejos y transparente
         else
         {
             radius = mainCrystal.MaxSafeZoneRadius;
-            alpha = 0f;
         }
 
         fogEffect.SetVector3("ColliderCenter", mainCrystal.transform.position);
         fogEffect.SetFloat("ColliderRadius", radius);
-        //fogEffect.SetFloat("Alpha", alpha); // Esto debe existir en tu VFX Graph
     }
 
-    // Calcula qué tan "de día" es: 0 = noche, 1 = mediodía
-    private float DaylightFactor(float timePercent)
+    void CheckDamagePlayer() 
     {
-        return Mathf.Sin(timePercent * Mathf.PI);
+        if (gameManager.IsNight) 
+        {
+            if (distanceToPlayer > radius)
+            {
+                player.TakeDamageOverTime(damagePerSecond * Time.deltaTime);
+            }
+            else 
+            {
+                player.Health();
+            }
+        }
+        else 
+        {
+            player.Health();
+        }
     }
 }

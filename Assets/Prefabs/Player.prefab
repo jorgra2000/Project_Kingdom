@@ -318,7 +318,7 @@ MonoBehaviour:
   clickableLayers:
     serializedVersion: 2
     m_Bits: 128
-  maxHealth: 0
+  maxHealth: 100
 --- !u!114 &1875006779210613544
 MonoBehaviour:
   m_ObjectHideFlags: 0

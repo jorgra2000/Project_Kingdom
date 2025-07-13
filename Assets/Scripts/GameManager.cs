@@ -16,9 +16,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float dayDurationInSeconds = 420f;
 
     private float timeScale;
+    private bool isNight;
 
     public float TimeDay { get => timeDay; set => timeDay = value; }
     public float TimePercent => timeDay / 24f;
+
+    public bool IsNight { get => isNight; set => isNight = value; }
 
     void Start()
     {
