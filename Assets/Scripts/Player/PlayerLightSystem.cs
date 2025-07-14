@@ -6,8 +6,8 @@ public class PlayerLightSystem : MonoBehaviour
     [SerializeField] private LayerMask lightMask;
     [SerializeField] private int maxLight;
     [SerializeField] private float attractionRadius;
-    [SerializeField] private TextMeshProUGUI lightText;
     [SerializeField] private Light staffLight;
+    [SerializeField] private UISystem uISystem;
 
     private int currentLight = 0;
 
@@ -47,8 +47,8 @@ public class PlayerLightSystem : MonoBehaviour
 
     private void UpdateLight() 
     {
-        lightText.text = currentLight + " / " + maxLight;
         staffLight.intensity = currentLight;
+        uISystem.UpdateLight(currentLight, maxLight );
     }
 
     private void OnDrawGizmos()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,8 @@ public class UISystem : MonoBehaviour
     [SerializeField] private GameObject victoryMenu;
     [SerializeField] private Slider crystalSlider;
     [SerializeField] private Image healthbar;
+    [SerializeField] private Image lightStaff;
+    [SerializeField] private TextMeshProUGUI lightText;
 
     public void ShowPauseMenu() 
     {
@@ -41,5 +44,10 @@ public class UISystem : MonoBehaviour
     public void UpdateHealthBar(float health, float maxHealth)
     {
         healthbar.fillAmount = health/maxHealth;
+    }
+    public void UpdateLight(float light, float maxLight)
+    {
+        lightStaff.fillAmount = light / maxLight;
+        lightText.text = light + " / " + maxLight;
     }
 }

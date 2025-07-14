@@ -11,6 +11,7 @@ public class FogController : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     [SerializeField] private PlayerController player;
     [SerializeField] private float damagePerSecond;
+    [SerializeField] private WaveManager waveManager;
 
     private float timePercent;
     private float radius;
@@ -51,6 +52,7 @@ public class FogController : MonoBehaviour
             radius = mainCrystal.CurrentSafeZoneRadius;
             gameManager.IsNight = true;
             CheckDamagePlayer();
+            waveManager.StartWavesInSafeZone(mainCrystal.CurrentSafeZoneRadius, mainCrystal.transform.position);
         }
         // 6:00 a 22:00 → niebla lejos y transparente
         else
