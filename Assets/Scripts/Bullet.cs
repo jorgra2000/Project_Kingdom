@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     private Rigidbody rb;
 
     [SerializeField] private float speed;
+    [SerializeField] private float damage;
 
     void Start()
     {
@@ -37,8 +38,7 @@ public class Bullet : MonoBehaviour
     {
         if (target != null && other.gameObject.CompareTag("Enemy"))
         {
-            other.GetComponent<Enemy>().TakeDamage(5);
-            Debug.Log("Dado");
+            other.GetComponent<Enemy>().TakeDamage(damage);
             Destroy(this.gameObject);
         }
     }

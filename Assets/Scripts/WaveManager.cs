@@ -4,11 +4,16 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     [SerializeField] private Enemy enemyPrefab;
-    private int enemiesToSpawnAtNight = 10;
     [SerializeField] private float timeBetweenSpawns = 1f;
-    private int pathTextureIndex = 2; // Índice de la textura de tierra en el Terrain Layer
+    private GameManager gameManager;
+    private int pathTextureIndex = 2;
 
     private bool spawning = false;
+
+    private void Start()
+    {
+        gameManager = GetComponent<GameManager>();
+    }
 
     public void StartWavesInSafeZone(float radius, Vector3 center)
     {
@@ -27,21 +32,20 @@ public class WaveManager : MonoBehaviour
             yield break;
         }
 
-        int spawned = 0;
-        int maxAttempts = 200; // Para evitar bucle infinito
+        int maxAttempts = 300;
 
-        while (spawned < enemiesToSpawnAtNight && maxAttempts > 0)
+        while (gameManager.IsNight && maxAttempts > 0)
         {
-            Vector2 randomPos2D = Random.insideUnitCircle * radius;
-            Vector3 spawnPos = center + new Vector3(randomPos2D.x, 0, randomPos2D.y);
+            float angle = Random.Range(0f, 2f * Mathf.PI);
+            float x = Mathf.Cos(angle) * radius;
+            float z = Mathf.Sin(angle) * radius;
+            Vector3 spawnPos = center + new Vector3(x, 0, z);
 
-            // Ajustamos Y al terreno
             spawnPos.y = terrain.SampleHeight(spawnPos) + terrain.transform.position.y;
 
             if (IsOnPath(terrain, spawnPos, pathTextureIndex, 0.5f))
             {
                 Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-                spawned++;
                 yield return new WaitForSeconds(timeBetweenSpawns);
             }
 
@@ -52,9 +56,6 @@ public class WaveManager : MonoBehaviour
         spawning = false;
     }
 
-    /// <summary>
-    /// Comprueba si el punto está sobre la textura de camino/tierra.
-    /// </summary>
     bool IsOnPath(Terrain terrain, Vector3 worldPos, int textureIndex, float threshold = 0.5f)
     {
         TerrainData data = terrain.terrainData;

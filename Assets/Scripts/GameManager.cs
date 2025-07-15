@@ -78,6 +78,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ChangeDay(float timeRespawn, float decrementTimeRespawn) 
+    {
+        timeRespawn -= decrementTimeRespawn;
+    }
+
     public void PauseGame() 
     {
         Time.timeScale = 0f;
@@ -88,6 +93,10 @@ public class GameManager : MonoBehaviour
     public void ResumeGame() 
     {
         Time.timeScale = 1f;
+        if (uISystem == null)
+        {
+            uISystem = FindObjectOfType<UISystem>();
+        }
         uISystem.QuitPauseMenu();
         playerInput.SwitchCurrentActionMap("Main");
     }
@@ -95,14 +104,12 @@ public class GameManager : MonoBehaviour
     public void Victory() 
     {
         uISystem.ShowVictoryMenu();
-        //Time.timeScale = 0f;
         StartCoroutine(GoBackToSelectLevel());
     }
 
     public void Defeat() 
     {
         uISystem.ShowDefeatMenu();
-        //Time.timeScale = 0f;
         StartCoroutine(GoBackToSelectLevel());
     }
 

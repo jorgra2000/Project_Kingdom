@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour
     [Header("Health")]
     [SerializeField] private float maxHealth;
 
-    private bool isBeingDamaged = false;
-
     private ParticleSystem clickEffectInstance;
 
     private void Awake()
@@ -49,7 +47,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         SetAnimation();
-        Debug.Log(currentHealth);
     }
 
     private void AssignInputs()

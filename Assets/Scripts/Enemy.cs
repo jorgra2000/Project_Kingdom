@@ -5,11 +5,14 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-
+    [Header("Stats")]
+    [SerializeField] private float speed;
     [SerializeField] private float maxHealth;
     [SerializeField] private float attack;
-    [SerializeField] private GameObject deathParticles;
+    [SerializeField] private float crystalDamage;
     [SerializeField] private Vector3 attackRangeDimensions;
+    [Header("Effects")]
+    [SerializeField] private GameObject deathParticles;
 
     private float currentHealth;
     private NavMeshAgent agent;
@@ -18,27 +21,73 @@ public class Enemy : MonoBehaviour
     private MainCrystal crystalScript;
     private Animator animator;
 
+    private Waypoint currentWaypoint;
+
     // Start is called before the first frame update
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        crystalScript = FindAnyObjectByType<MainCrystal>();
-        crystalPosition = FindAnyObjectByType<MainCrystal>().gameObject.transform;
-        currentObjective = crystalPosition;
-        agent.destination = currentObjective.position;
         currentHealth = maxHealth;
+        speed = agent.speed;
+
+        crystalScript = FindAnyObjectByType<MainCrystal>();
+        if (crystalScript != null)
+        {
+            crystalPosition = crystalScript.transform;
+        }
+
+        currentWaypoint = FindClosestWaypoint();
+
+        if (currentWaypoint != null)
+        {
+            agent.SetDestination(currentWaypoint.transform.position);
+        }
+        else if (crystalPosition != null)
+        {
+            agent.SetDestination(crystalPosition.position);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentObjective == null)
+        // Movimiento entre waypoints
+        if (currentWaypoint != null && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            currentObjective = crystalPosition;
+            currentWaypoint = currentWaypoint.NextWaypoint;
+
+            if (currentWaypoint != null)
+            {
+                agent.SetDestination(currentWaypoint.transform.position);
+            }
+            else if (crystalPosition != null)
+            {
+                agent.SetDestination(crystalPosition.position);
+            }
         }
 
         SetAnimation();
+    }
+
+    private Waypoint FindClosestWaypoint()
+    {
+        Waypoint[] allWaypoints = FindObjectsOfType<Waypoint>();
+        Waypoint closest = null;
+        float shortestDistance = Mathf.Infinity;
+
+        foreach (Waypoint wp in allWaypoints)
+        {
+            float distance = Vector3.Distance(transform.position, wp.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                closest = wp;
+            }
+        }
+
+        return closest;
     }
 
     void SetAnimation()
@@ -72,7 +121,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Crystal")) 
         {
-            crystalScript.ChangeLight(-5f);
+            crystalScript.ChangeLight(-crystalDamage);
             Death();
         }
     }

@@ -24,7 +24,6 @@ public class LightingManager : MonoBehaviour
             if (timeDay >= 24f)
             {
                 timeDay %= 24f;
-                //gameManager.ChangeDay();
             }
             UpdateLighting(timeDay/24f);
 
