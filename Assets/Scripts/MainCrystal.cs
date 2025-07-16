@@ -12,6 +12,7 @@ public class MainCrystal : Interactable
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private UISystem uISystem;
+    [SerializeField] private PlayerLightSystem playerLightSystem;
     [Header("Mesh")]
     [SerializeField] private Transform meshCrystal;
     [SerializeField] private float rotationSpeed;
@@ -50,7 +51,6 @@ public class MainCrystal : Interactable
     {
         base.Update();
         meshCrystal.Rotate(new Vector3(0,0,rotationSpeed) * Time.deltaTime);
-        Debug.Log(allBuildings.Count);
     }
 
     public void UpdateSafeZone()
@@ -87,6 +87,7 @@ public class MainCrystal : Interactable
     {
         ChangeLight(addLightFactor);
         UpdateSafeZone();
+        playerLightSystem.LoseLight(LightCost);
     }
 
     void OnDrawGizmos()

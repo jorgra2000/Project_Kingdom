@@ -49,8 +49,8 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   directionalLight: {fileID: 0}
   preset: {fileID: 11400000, guid: 6c8e0ab3a5e810542b786cdca127b40c, type: 2}
-  timeDay: 0
-  dayDurationInSeconds: 60
+  timeDay: 7
+  dayDurationInSeconds: 360
 --- !u!114 &4414617176362228521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,5 +66,5 @@ MonoBehaviour:
   enemyPrefab: {fileID: 1996905584646402071, guid: a732d3ffd53d6de4dbe9f92182db2ceb,
     type: 3}
   timeBetweenSpawns: 5
-  minTimeSpawn: 0
-  decreasePerNight: 0
+  minTimeSpawn: 1.25
+  decreasePerNight: 0.1

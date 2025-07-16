@@ -2624,6 +2624,11 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1186140607}
+    - target: {fileID: 4919159028503752804, guid: a4111e503bc93444e8debf15359179e8,
+        type: 3}
+      propertyPath: m_UIInputModule
+      value: 
+      objectReference: {fileID: 519885724}
     - target: {fileID: 5059528715679263994, guid: a4111e503bc93444e8debf15359179e8,
         type: 3}
       propertyPath: m_IsActive
