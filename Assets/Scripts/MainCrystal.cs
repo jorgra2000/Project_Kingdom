@@ -7,11 +7,15 @@ public class MainCrystal : Interactable
     [SerializeField] private float maxLightLevel;
     [SerializeField] private float startLightLevel;
     [SerializeField] private float maxSafeZoneRadius;
+    [SerializeField] private float addLightFactor;
     [SerializeField] private LayerMask affectLightLayer;
+    [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private UISystem uISystem;
+    [Header("Mesh")]
     [SerializeField] private Transform meshCrystal;
     [SerializeField] private float rotationSpeed;
+    
 
     private float currentLightLevel;
     private float currentSafeZoneRadius;
@@ -46,6 +50,7 @@ public class MainCrystal : Interactable
     {
         base.Update();
         meshCrystal.Rotate(new Vector3(0,0,rotationSpeed) * Time.deltaTime);
+        Debug.Log(allBuildings.Count);
     }
 
     public void UpdateSafeZone()
@@ -80,7 +85,7 @@ public class MainCrystal : Interactable
 
     public override void Interact()
     {
-        ChangeLight(40);
+        ChangeLight(addLightFactor);
         UpdateSafeZone();
     }
 
@@ -88,6 +93,8 @@ public class MainCrystal : Interactable
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, currentSafeZoneRadius);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, maxSafeZoneRadius);
     }
 
     void CheckVictory() 
@@ -101,5 +108,4 @@ public class MainCrystal : Interactable
             gameManager.Defeat();
         }
     }
-
 }

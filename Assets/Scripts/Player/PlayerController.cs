@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         SetAnimation();
+        if (currentHealth <= 0)
+            gameManager.Defeat();
     }
 
     private void AssignInputs()

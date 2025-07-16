@@ -13,8 +13,6 @@ public class PlayerLightSystem : MonoBehaviour
 
     public int CurrentLight { get => currentLight; set => currentLight = value; }
 
-
-    // Start is called before the first frame update
     void Start()
     {
         UpdateLight();

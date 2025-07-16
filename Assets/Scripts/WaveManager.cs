@@ -5,6 +5,8 @@ public class WaveManager : MonoBehaviour
 {
     [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private float timeBetweenSpawns = 1f;
+    [SerializeField] private float minTimeSpawn;
+    [SerializeField] private float decreasePerNight;
     private GameManager gameManager;
     private int pathTextureIndex = 2;
 
@@ -23,6 +25,13 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator SpawnEnemies(float radius, Vector3 center)
     {
+        timeBetweenSpawns -= decreasePerNight;
+
+        if(timeBetweenSpawns < minTimeSpawn) 
+        {
+            timeBetweenSpawns = minTimeSpawn;
+        }
+
         spawning = true;
 
         Terrain terrain = Terrain.activeTerrain;

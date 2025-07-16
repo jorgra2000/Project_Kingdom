@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5746112720306788805}
   - component: {fileID: 4496917899027393617}
+  - component: {fileID: 4414617176362228521}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -50,3 +51,20 @@ MonoBehaviour:
   preset: {fileID: 11400000, guid: 6c8e0ab3a5e810542b786cdca127b40c, type: 2}
   timeDay: 0
   dayDurationInSeconds: 60
+--- !u!114 &4414617176362228521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020771552255029854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4f960962b5a0a47af562573d12fe6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 1996905584646402071, guid: a732d3ffd53d6de4dbe9f92182db2ceb,
+    type: 3}
+  timeBetweenSpawns: 5
+  minTimeSpawn: 0
+  decreasePerNight: 0

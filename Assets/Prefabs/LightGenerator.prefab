@@ -224,7 +224,7 @@ MonoBehaviour:
   timeToInteract: 2
   interactionTrigger: {fileID: 3792952264796296446}
   lightCost: 0
-  timeToReload: 10
+  timeToReload: 90
   lightAmount: 20
   resourcePrefab: {fileID: 2851590608283929787, guid: 2fcfe153cef9cb747a2f7e34a5a6ed6e,
     type: 3}

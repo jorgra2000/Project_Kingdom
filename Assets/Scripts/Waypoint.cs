@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    [SerializeField] private Waypoint nextWaypoint;
+    [SerializeField] private Waypoint[] nextWaypoint;
 
-    public Waypoint NextWaypoint { get => nextWaypoint; set => nextWaypoint = value; }
+    public Waypoint[] NextWaypoint { get => nextWaypoint; set => nextWaypoint = value; }
 }

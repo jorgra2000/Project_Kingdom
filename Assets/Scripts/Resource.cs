@@ -28,6 +28,7 @@ public class Resource : MonoBehaviour
 
     private void Collect() 
     {
+        GetComponent<AudioSource>().Play();
         target.GetComponent<PlayerLightSystem>().AddLight();
         Destroy(gameObject);
     }

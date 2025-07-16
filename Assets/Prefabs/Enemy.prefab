@@ -481,7 +481,7 @@ MonoBehaviour:
   speed: 5
   maxHealth: 10
   attack: 0
-  crystalDamage: 5
+  crystalDamage: 2.5
   attackRangeDimensions: {x: 4.5, y: 3, z: 4.5}
   deathParticles: {fileID: 7391926056080999537, guid: 070dcac6ec2734f4ea6b6c3b08016323,
     type: 3}

@@ -56,7 +56,15 @@ public class Enemy : MonoBehaviour
         // Movimiento entre waypoints
         if (currentWaypoint != null && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            currentWaypoint = currentWaypoint.NextWaypoint;
+            if(currentWaypoint.NextWaypoint.Length > 1) 
+            {
+                currentWaypoint = currentWaypoint.NextWaypoint[(int)Random.Range(0,currentWaypoint.NextWaypoint.Length)];
+            }
+            else 
+            {
+                currentWaypoint = currentWaypoint.NextWaypoint[0];
+            }
+
 
             if (currentWaypoint != null)
             {

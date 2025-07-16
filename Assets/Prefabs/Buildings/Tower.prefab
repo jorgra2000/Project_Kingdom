@@ -438,7 +438,7 @@ MonoBehaviour:
   filledInteract: {fileID: 1913696640596068343}
   timeToInteract: 2
   interactionTrigger: {fileID: 7987130436976196668}
-  lightCost: 0
+  lightCost: 40
   builtMesh: {fileID: 4300004, guid: 5921e45280d702e44ad0fb582ac16d26, type: 3}
   builtParticles: {fileID: 6101857827236234483}
   costText: {fileID: 8460136765553019934}
