@@ -25,7 +25,6 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator SpawnEnemies(float radius, Vector3 center)
     {
-        yield return new WaitForSeconds(5f);
         timeBetweenSpawns -= decreasePerNight;
 
         if(timeBetweenSpawns < minTimeSpawn) 
@@ -34,6 +33,7 @@ public class WaveManager : MonoBehaviour
         }
 
         spawning = true;
+        yield return new WaitForSeconds(5f);
 
         Terrain terrain = Terrain.activeTerrain;
         if (terrain == null)
