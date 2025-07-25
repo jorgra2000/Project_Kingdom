@@ -215,8 +215,11 @@ MonoBehaviour:
   affectLightLayer:
     serializedVersion: 2
     m_Bits: 512
+  lightMaterial: {fileID: -876546973899608171, guid: f9cb8ace7f624ab4ca0b57f4318bc800,
+    type: 3}
   gameManager: {fileID: 0}
   uISystem: {fileID: 0}
+  playerLightSystem: {fileID: 0}
   meshCrystal: {fileID: 1341237952364145072}
   rotationSpeed: 6
 --- !u!1 &6505518774337882045

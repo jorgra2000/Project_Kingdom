@@ -9,6 +9,7 @@ public class MainCrystal : Interactable
     [SerializeField] private float maxSafeZoneRadius;
     [SerializeField] private float addLightFactor;
     [SerializeField] private LayerMask affectLightLayer;
+    [SerializeField] private Material lightMaterial;
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private UISystem uISystem;
@@ -29,6 +30,8 @@ public class MainCrystal : Interactable
 
     private void Start()
     {
+        lightMaterial.SetVector("_OriginPosition", transform.position);
+        
         currentLightLevel = startLightLevel;
         currentSafeZoneRadius = (currentLightLevel / maxLightLevel) * maxSafeZoneRadius;
 
@@ -56,6 +59,7 @@ public class MainCrystal : Interactable
     public void UpdateSafeZone()
     {
         currentSafeZoneRadius = (currentLightLevel / maxLightLevel) * maxSafeZoneRadius;
+        lightMaterial.SetFloat("_LightRadius", currentSafeZoneRadius);
 
         foreach (Building building in allBuildings)
         {

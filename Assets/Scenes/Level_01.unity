@@ -742,7 +742,7 @@ Camera:
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2138,7 +2138,8 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
+  m_MaterialTemplate: {fileID: -876546973899608171, guid: f9cb8ace7f624ab4ca0b57f4318bc800,
+    type: 3}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -3464,7 +3465,7 @@ MonoBehaviour:
   m_Follow: {fileID: 115694448}
   m_Lens:
     FieldOfView: 60.000004
-    OrthographicSize: 15
+    OrthographicSize: 14
     NearClipPlane: -30
     FarClipPlane: 1000
     Dutch: 0
@@ -3789,6 +3790,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fog
       objectReference: {fileID: 0}
+    - target: {fileID: 6627351789809513718, guid: 5d214e52830962d45a901019fbc1cd33,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7739762320210599185, guid: 5d214e52830962d45a901019fbc1cd33,
         type: 3}
       propertyPath: player
@@ -3837,6 +3843,11 @@ PrefabInstance:
     - target: {fileID: 9026355956260149041, guid: 5d214e52830962d45a901019fbc1cd33,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Overridden
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179562746432674751, guid: 5d214e52830962d45a901019fbc1cd33,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
