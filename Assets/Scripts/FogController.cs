@@ -12,6 +12,7 @@ public class FogController : MonoBehaviour
     [SerializeField] private PlayerController player;
     [SerializeField] private float damagePerSecond;
     [SerializeField] private WaveManager waveManager;
+    [SerializeField] private float radiusFactor;
 
     private float timePercent;
     private float radius;
@@ -24,7 +25,7 @@ public class FogController : MonoBehaviour
         fogEffect = GetComponent<VisualEffect>();
 
         fogEffect.SetVector3("ColliderCenter", mainCrystal.gameObject.transform.position);
-        fogEffect.SetFloat("ColliderRadius", mainCrystal.CurrentSafeZoneRadius);
+        fogEffect.SetFloat("ColliderRadius", mainCrystal.CurrentSafeZoneRadius - radiusFactor);
     }
 
     // Update is called once per frame
@@ -61,7 +62,7 @@ public class FogController : MonoBehaviour
         }
 
         fogEffect.SetVector3("ColliderCenter", mainCrystal.transform.position);
-        fogEffect.SetFloat("ColliderRadius", radius);
+        fogEffect.SetFloat("ColliderRadius", radius- radiusFactor);
     }
 
     void CheckDamagePlayer() 

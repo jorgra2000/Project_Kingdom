@@ -14,6 +14,7 @@ public class UISystem : MonoBehaviour
     [SerializeField] private Image healthbar;
     [SerializeField] private Image lightStaff;
     [SerializeField] private TextMeshProUGUI lightText;
+    [SerializeField] private TextMeshProUGUI countdownToNightText;
 
     public void ShowPauseMenu() 
     {
@@ -49,5 +50,10 @@ public class UISystem : MonoBehaviour
     {
         lightStaff.fillAmount = light / maxLight;
         lightText.text = light + " / " + maxLight;
+    }
+
+    public void UpdateCountdownToNight(string timeString)
+    {
+        countdownToNightText.text = timeString;
     }
 }

@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
                 timeDay %= 24f;
             }
             UpdateLighting(timeDay / 24f);
+            UpdateCountdownToNight();
         }
     }
 
@@ -123,5 +124,41 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(8f);
         SceneManager.LoadScene(1);
+    }
+
+    private void UpdateCountdownToNight()
+    {
+        float currentTime = timeDay;
+        float nightStart = 23f;
+        float nightEnds = 5f;
+        float secondsPerHour = dayDurationInSeconds / 24f;
+        string formattedTime;
+
+        float hoursLeft;
+
+        if (currentTime < nightStart)
+        {
+            hoursLeft = nightStart - currentTime;
+        }
+        else
+        {
+            // Si es después de las 23:00, la próxima noche será al día siguiente
+            hoursLeft = (24f - currentTime) + nightStart;
+        }
+
+        int totalSecondsLeft = Mathf.CeilToInt(hoursLeft * secondsPerHour);
+
+        int minutes = totalSecondsLeft / 60;
+        int seconds = totalSecondsLeft % 60;
+        if(currentTime < nightStart && currentTime > nightEnds) 
+        {
+            formattedTime = $"Night in: {minutes:D2}:{seconds:D2}";
+        }
+        else 
+        {
+            formattedTime = "The Shadow has arrived";
+        }
+        
+        uISystem.UpdateCountdownToNight(formattedTime);
     }
 }
